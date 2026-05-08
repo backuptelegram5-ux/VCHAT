@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const axios = require('axios');
 const { queryAI } = require('../src/ai');
-const { sendMessage, sendTyping } = require('../src/telegram');
+const { sendMessage, sendTyping, sendDocument } = require('../src/telegram');
 
 // Webhook handler for Telegram
 module.exports = async (req, res) => {
@@ -22,11 +22,14 @@ module.exports = async (req, res) => {
       // Send typing indicator
       await sendTyping(chatId);
       
-      // Query AI
-      const aiResponse = await queryAI(userMessage);
+      // Query AI and get both clean text and JSON
+      const result = await queryAI(userMessage);
       
-      // Send response
-      await sendMessage(chatId, aiResponse);
+      // Send clean text message first
+      await sendMessage(chatId, result.cleanText);
+      
+      // Then send JSON as text file
+      await sendDocument(chatId, result.jsonData, 'ai_response.json');
     }
     
     res.status(200).json({ ok: true });
