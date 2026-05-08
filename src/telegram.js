@@ -26,6 +26,11 @@ async function sendTyping(chatId) {
       chat_id: chatId,
       action: 'typing'
     });
+  } catch (error) {
+    console.error('Telegram Typing Error:', error.message);
+  }
+}
+
 // Send document (text file) to Telegram user
 async function sendDocument(chatId, content, filename = 'response.txt') {
   try {
