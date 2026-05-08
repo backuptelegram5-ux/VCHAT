@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-// Call AI API with user query
+// Call AI API with user queryf
 async function queryAI(text) {
   try {
     const apiUrl = process.env.AI_API_URL;
