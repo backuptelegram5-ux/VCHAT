@@ -22,14 +22,11 @@ module.exports = async (req, res) => {
       // Send typing indicator
       await sendTyping(chatId);
       
-      // Query AI and get both clean text and JSON
-      const result = await queryAI(userMessage);
+      // Query AI
+      const aiResponse = await queryAI(userMessage);
       
-      // Send clean text message first
-      await sendMessage(chatId, result.cleanText);
-      
-      // Then send JSON as text file
-      await sendDocument(chatId, result.jsonData, 'ai_response.json');
+      // Send message
+      await sendMessage(chatId, aiResponse);
     }
     
     res.status(200).json({ ok: true });
