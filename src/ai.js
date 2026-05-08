@@ -21,10 +21,5 @@ async function queryAI(text) {
     };
   }
 }
-      error: 'Failed to process request',
-      message: error.message
-    }, null, 2);
-  }
-}
 
 module.exports = { queryAI };
