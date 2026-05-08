@@ -26,9 +26,23 @@ async function sendTyping(chatId) {
       chat_id: chatId,
       action: 'typing'
     });
+// Send document (text file) to Telegram user
+async function sendDocument(chatId, content, filename = 'response.txt') {
+  try {
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    
+    // Send as a message with file-like formatting
+    const message = `<code>${filename}</code>\n\n<code>${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code>`;
+    
+    await axios.post(url, {
+      chat_id: chatId,
+      text: message,
+      parse_mode: 'HTML'
+    });
   } catch (error) {
-    console.error('Telegram Typing Error:', error.message);
+    console.error('Telegram Document Error:', error.message);
   }
 }
 
-module.exports = { sendMessage, sendTyping };
+module.exports = { sendMessage, sendTyping, sendDocument };
